@@ -42,6 +42,8 @@ public:
 	sf::Sprite sprite;
 	float currentFrame;
 	int Score;
+	bool life;
+	int health;
 	PLAYER(sf::Texture& image)
 	{
 		sprite.setTexture(image);
@@ -50,6 +52,8 @@ public:
 		dx = dy = 0.1;
 		currentFrame = 0;
 		Score = 0;
+		life = true;
+		health = 3;
 	}
 
 
@@ -92,10 +96,13 @@ public:
 		if (dy > 0 && dx < 0) {
 			sprite.setTextureRect(sf::IntRect(170 + 31 * int(currentFrame) + 16, 144, -16, 16));
 		}
-
 		sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
-
 		dx = 0;
+		if (health < 0) {
+			life = false;
+			dx = 0;
+			dy = 0;
+		}
 	}
 
 	/*Обработка столкновений*/
@@ -431,7 +438,7 @@ int main()
 		float time = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
 
-		time = time / 700;  
+		time = time / 700;
 
 		if (time > 20) {
 			time = 20;
@@ -444,26 +451,29 @@ int main()
 				window.close();
 		}
 
+		if (Bounce.life) {
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
-			Bounce.dx = -0.08;
-		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		{
-			Bounce.dx = 0.08;
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		{
-			if (Bounce.onGround)
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				Bounce.dy = -0.27;
-				Bounce.onGround = false;
-				sound.play();
+				Bounce.dx = -0.08;
 			}
 
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{
+				Bounce.dx = 0.08;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			{
+				if (Bounce.onGround)
+				{
+					Bounce.dy = -0.27;
+					Bounce.onGround = false;
+					sound.play();
+				}
+
+			}
 		}
 
 
@@ -473,16 +483,29 @@ int main()
 		enemy3.update(time);
 		venemy.update(time);
 
+	if (Bounce.life)
+	{
 		if (Bounce.rect.intersects(enemy1.rect))
 		{
 			if (enemy1.life) {
 				if (Bounce.dy > 0) {
 					enemy1.dx = 0;
-					Bounce.dy = -0.3; 
+					Bounce.dy = -0.3;
 					enemy1.life = false;
-					
+					if (Bounce.life<3) 
+					{
+						Bounce.health += 1;
+					}
 				}
 				else {
+					Bounce.health -= 1;
+					if (enemy1.dx > 0)
+					{
+						Bounce.rect.left -= 35;
+					}
+					else {
+						Bounce.rect.left += 35;
+					}
 					Bounce.sprite.setColor(sf::Color::Red);
 
 				}
@@ -493,10 +516,22 @@ int main()
 			if (enemy2.life) {
 				if (Bounce.dy > 0) {
 					enemy2.dx = 0;
-					Bounce.dy = -0.3; 
+					Bounce.dy = -0.3;
 					enemy2.life = false;
+					if (Bounce.life < 3)
+					{
+						Bounce.health += 1;
+					}
 				}
 				else {
+					Bounce.health -= 1;
+					if (enemy2.dx > 0)
+					{
+						Bounce.rect.left -= 35;
+					}
+					else {
+						Bounce.rect.left += 35;
+					}
 					Bounce.sprite.setColor(sf::Color::Red);
 				}
 			}
@@ -506,12 +541,25 @@ int main()
 			if (venemy.life) {
 				if (Bounce.dy > 0)
 				{
+					if (Bounce.life < 3)
+					{
+						Bounce.health += 1;
+					}
 					venemy.dy = 0;
 					Bounce.dy = -0.3;
 					venemy.life = false;
 				}
 				else
 				{
+
+					Bounce.health -= 1;
+					if (enemy3.dx > 0)
+					{
+						Bounce.rect.left -= 35;
+					}
+					else {
+						Bounce.rect.left += 35;
+					}
 					Bounce.sprite.setColor(sf::Color::Red);
 				}
 			}
@@ -519,16 +567,30 @@ int main()
 		if (Bounce.rect.intersects(enemy3.rect))
 		{
 			if (enemy3.life) {
-				if (Bounce.dy > 0) {
-					enemy3.dx = 0; 
+				if (Bounce.dy > 0)
+				{
+					if (Bounce.life < 3)
+					{
+						Bounce.health += 1;
+					}
+					enemy3.dx = 0;
 					Bounce.dy = -0.3;
 					enemy3.life = false;
 				}
 				else {
+					Bounce.health -= 1;
+					if (enemy3.dx > 0)
+					{
+						Bounce.rect.left -= 35;
+					}
+					else {
+						Bounce.rect.left += 35;
+					}
 					Bounce.sprite.setColor(sf::Color::Red);
 				}
 			}
 		}
+	}
 
 		if (Bounce.rect.left > 200 && Bounce.rect.left<1600) {
 			offsetX = Bounce.rect.left - 200;
