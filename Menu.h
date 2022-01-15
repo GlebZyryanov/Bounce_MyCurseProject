@@ -21,8 +21,6 @@ void menu(RenderWindow& window) {
 	menu2.setPosition(50, 90);
 	menu3.setPosition(50, 150);
 	
-
-	//////////////////////////////лемч///////////////////
 	while (isMenu)
 	{
 		menu1.setColor(Color::White);
@@ -69,5 +67,5 @@ void menu(RenderWindow& window) {
 		window.draw(menu3);
 		window.display();
 	}
-	////////////////////////////////////////////////////
+	/
 }

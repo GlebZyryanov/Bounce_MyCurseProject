@@ -3,10 +3,10 @@
 #include <sstream>
 #include "Menu.h"
 
+/*Переменные смещения экрана*/
 float offsetX = 0;
 float offsetY = 0;
-
-
+/*Переменные высота\щирина карты*/
 const int H = 17;
 const int W = 151;
 
@@ -31,24 +31,31 @@ sf::String TileMap[H] = {
 };
 
 
-
+/*Класс Игрока*/
 class PLAYER {
 
 public:
-
+	/*Изменение скорости по x,y*/
 	float dx;
 	float dy;
+	/*класс sf::FloatRect*/
+	/*позволяет работать с объектами как с прямоугольниками*/
 	sf::FloatRect rect;
+	/*Переменная-флаг,персонаж на земле или нет*/
 	bool onGround;
+	/*sf::Sprite-это класс для рисования, который позволяет легко отображать текстуру  на объекте рендеринга.*/
 	sf::Sprite sprite;
+	/*Текущий кадр*/
 	float currentFrame;
+	/*Опыт, жизнь, здоровье*/
 	int Score;
 	bool life;
 	int health;
+	/*Конструктор - инициализация переменных*/
 	PLAYER(sf::Texture& image)
 	{
 		sprite.setTexture(image);
-		rect = sf::FloatRect(100, 180, 16, 16);
+		rect = sf::FloatRect(80, 145, 16, 16);
 
 		dx = dy = 0.1;
 		currentFrame = 0;
@@ -57,22 +64,23 @@ public:
 		health = 3;
 	}
 
-
+	/*Обновление характеристик*/
 	void update(float time)
 	{
-
+		/*смещение по x*/
 		rect.left += dx * time;
+		
 		Collision(0);
-
 
 		if (!onGround) {
 			dy = dy + 0.0005 * time;
 		}
+		/*смещение по y*/
 		rect.top += dy * time;
 		onGround = false;
 		Collision(1);
 
-
+		/*Смена текущего кадра анимации*/
 		currentFrame += time * 0.005;
 		if (currentFrame > 3) {
 			currentFrame -= 3;
@@ -97,8 +105,11 @@ public:
 		if (dy > 0 && dx < 0) {
 			sprite.setTextureRect(sf::IntRect(170 + 31 * int(currentFrame) + 16, 144, -16, 16));
 		}
+		/*Установка позиции персонажа*/
 		sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
+		/*Занулить скорость по x*/
 		dx = 0;
+		/*Смерть персонажа*/
 		if (health < 0) {
 			life = false;
 			dx = 0;
@@ -257,6 +268,7 @@ public:
 	}
 };
 
+/*Враг, движется по вертикали*/
 class ENEMYVertical
 {
 public:
@@ -304,7 +316,6 @@ public:
 	}
 	void update(float time)
 	{
-		
 		rect.top += dy * time;
 		Collision();
 
@@ -312,17 +323,15 @@ public:
 		if (currentFrame > 2) {
 			currentFrame -= 2;
 		}
-
 		sprite.setTextureRect(sf::IntRect(36 * int(currentFrame), 0, 16, 16));
 		if (!life) {
 			sprite.setTextureRect(sf::IntRect(58, 0, 16, 16));
 
 		}
-
 		sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
-
 	}
 };
+/*Враг по горизонтали*/
 class ENEMYHorizont
 {
 
@@ -332,7 +341,6 @@ public:
 	sf::Sprite sprite;
 	float currentFrame;
 	bool life;
-
 
 	void set(sf::Texture& image, unsigned long int x, unsigned long int y)
 	{
@@ -354,18 +362,13 @@ public:
 		if (currentFrame > 2) {
 			currentFrame -= 2;
 		}
-
 		sprite.setTextureRect(sf::IntRect(18 * int(currentFrame), 0, 16, 16));
 		if (!life) {
 			sprite.setTextureRect(sf::IntRect(58, 0, 16, 16));
 			
 		}
-
-
 		sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
-
 	}
-
 
 	void Collision()
 	{
@@ -391,8 +394,6 @@ public:
 
 };
 
-
-
 int main()
 {
 	/*Загрузка шрифта*/
@@ -410,12 +411,14 @@ int main()
 
 	/*Создание окна игры*/
 	sf::RenderWindow window(sf::VideoMode(950, 272), "Bounce!");
-	menu(window);//вызов меню
-
+	/*Вызов меню*/
+	menu(window);
+	/*Загрузка текстур*/
 	sf::Texture tileSet;
 	tileSet.loadFromFile("Mario_tileset.png");
 	sf::Texture tileSet2;
 	tileSet2.loadFromFile("TileSet2.png");
+	/*Создание персонажа, врагов*/
 	PLAYER Bounce(tileSet);
 	ENEMYHorizont  enemy1;
 	ENEMYHorizont enemy2;
@@ -425,42 +428,43 @@ int main()
 	enemy3.set(tileSet, 1500, 95);
 	enemy1.set(tileSet, 1700, 95);
 	enemy2.set(tileSet, 700, 208);
-
+	/*Создание спрайтов*/
 	sf::Sprite tile(tileSet);
 	sf::Sprite tile2(tileSet2);
+	/*Музыка*/
 	sf::SoundBuffer buffer;
 	buffer.loadFromFile("Jump.ogg");
 	sf::Sound sound(buffer);
-
 	sf::Music music;
 	music.openFromFile("Game-Mario.ogg");
 	music.play();
 	
-
 	sf::Clock clock;
-
+	/*Рабочее окно*/
 	while (window.isOpen())
 	{
-
+		
 		float time = clock.getElapsedTime().asMicroseconds();
+		/*Обнуление таймера*/
 		clock.restart();
-
+		/*Регулировка скорости игры*/
 		time = time / 700;
 
 		if (time > 20) {
 			time = 20;
 		}
 
+		/*Выход из окна*/
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-
+		/*если персонаж жив*/
 		if (Bounce.life) {
 
-
+			/*Обработка клавиатуры*/
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
 				Bounce.dx = -0.08;
@@ -485,13 +489,14 @@ int main()
 			}
 		}
 
-
+		/*Обновить обьекты*/
 		Bounce.update(time);
 		enemy1.update(time);
 		enemy2.update(time);
 		enemy3.update(time);
 		venemy.update(time);
 
+		/*Пересечение персонажа и врагов*/
 	if (Bounce.life)
 	{
 		if (Bounce.rect.intersects(enemy1.rect))
@@ -612,8 +617,8 @@ int main()
 			offsetX = Bounce.rect.left - 200;
 		}
 
+		/*Отрисовка карты*/
 		window.clear(sf::Color::Blue);
-
 		for (int i = 0; i < H; i++)
 		{
 			for (int j = 0; j < W; j++)
@@ -735,7 +740,6 @@ int main()
 			}
 
 		}
-		
 		window.draw(Bounce.sprite);
 		window.draw(enemy1.sprite); 
 		
@@ -758,6 +762,7 @@ int main()
 		text.setString("Здоровье:" + StringHealth.str());
 		text.setPosition(10, 35);
 		window.draw(text);
+		/*Если здоровье меньше 0*/
 		if (!Bounce.life) {
 			textGameOver.setString("Игра Окончена");
 			textGameOver.setPosition(150, 50);
