@@ -67,5 +67,5 @@ void menu(RenderWindow& window) {
 		window.draw(menu3);
 		window.display();
 	}
-	/
+	
 }
