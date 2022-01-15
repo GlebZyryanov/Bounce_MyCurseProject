@@ -1,6 +1,7 @@
 ﻿#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <sstream>
+#include "Menu.h"
 
 float offsetX = 0;
 float offsetY = 0;
@@ -406,9 +407,10 @@ int main()
 	sf::Text textGameOver("", font, 100);
 	textGameOver.setFillColor(sf::Color::White);
 	textGameOver.setStyle(sf::Text::Bold);
+
 	/*Создание окна игры*/
 	sf::RenderWindow window(sf::VideoMode(950, 272), "Bounce!");
-
+	menu(window);//вызов меню
 
 	sf::Texture tileSet;
 	tileSet.loadFromFile("Mario_tileset.png");
@@ -468,7 +470,9 @@ int main()
 			{
 				Bounce.dx = 0.08;
 			}
-
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab)) {
+				menu(window);
+			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
 				if (Bounce.onGround)
