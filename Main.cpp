@@ -1,6 +1,6 @@
 ﻿#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-
+#include <sstream>
 
 float offsetX = 0;
 float offsetY = 0;
@@ -16,14 +16,14 @@ sf::String TileMap[H] = {
 "0                    w                          w                                                                                                    0",
 "0                                                                                                    t0                                              0",
 "0                                                                                   t0               00                          t0          G       0",
-"0                                                                                   00               00                          00                  0",
-"0                    m                                                  rPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
-"0                                                                      rrPPPPPPPPccccccPcccccPcPPPcPccPPPPcPcccccPcccccPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
-"0                                                                     rrrPPPPPPPPccPPPcPcPPPcPcPPPcPcPcPPPcPcPPPPPcPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
-"0                   kckck                                            rrrrPPPPPPPPccccccPcPPPcPcPPPcPcPPcPPcPcPPPPPcccccPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0                                                                                   00               00    m m m m m m m         00     m m m        0",
+"0                         m                                             rPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0                                                             m        rrPPPPPPPPccccccPcccccPcPPPcPccPPPPcPcccccPcccccPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0                    m m                                              rrrPPPPPPPPccPPPcPcPPPcPcPPPcPcPcPPPcPcPPPPPcPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0                   kckck                                 m  m       rrrrPPPPPPPPccccccPcPPPcPcPPPcPcPPcPPcPcPPPPPcccccPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
 "0                                      t0                           rrrrrPPPPPPPPccPPPcPcPPPcPcPPPcPcPPPcPcPcPPPPPcPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
 "0G                                     00              t0          rrrrrrPPPPPPPPccccccPcccccPcccccPcPPPPccPcccccPcccccPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
-"0           d    g       d             00              00         rrrrrrrPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0           d    g  mmm     d          00      m  m    00         rrrrrrrPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
 "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
 "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
 "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
@@ -41,7 +41,7 @@ public:
 	bool onGround;
 	sf::Sprite sprite;
 	float currentFrame;
-
+	int Score;
 	PLAYER(sf::Texture& image)
 	{
 		sprite.setTexture(image);
@@ -49,6 +49,7 @@ public:
 
 		dx = dy = 0.1;
 		currentFrame = 0;
+		Score = 0;
 	}
 
 
@@ -97,17 +98,22 @@ public:
 		dx = 0;
 	}
 
-
+	/*Обработка столкновений*/
 	void Collision(int num)
 	{
-
+		
+		
+	/*проход по карте*/
 		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++) {
 			for (int j = rect.left / 16; j < (rect.left + rect.width) / 16; j++)
 			{
+				/*Если персонаж столкнулся, с препятствием*/
 				if ((TileMap[i][j] == 'P'))
 				{
+					/*проверяем в какую сторону двигался*/
 					if (dy > 0 && num == 1)
 					{
+						/*Изменяем скорость и др.*/
 						rect.top = i * 16 - rect.height;
 						dy = 0;
 						onGround = true;
@@ -125,6 +131,10 @@ public:
 					{
 						rect.left = j * 16 + 16;
 					}
+				}
+				if (TileMap[i][j] == 'm') {
+					TileMap[i][j] = ' ';
+					Score++;
 				}
 				if ((TileMap[i][j] == 'k')) {
 					if (dy > 0 && num == 1)
@@ -378,35 +388,40 @@ public:
 
 int main()
 {
-
+	/*Загрузка шрифта*/
+	sf::Font font;
+	font.loadFromFile("CyrilicOld.ttf");
+	sf::Text text("", font, 20);
+	text.setFillColor(sf::Color::White);
+	text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	/*Создание окна игры*/
 	sf::RenderWindow window(sf::VideoMode(950, 272), "Bounce!");
+
+
 	sf::Texture tileSet;
+	tileSet.loadFromFile("Mario_tileset.png");
 	sf::Texture tileSet2;
-	tileSet.loadFromFile("Mario_Tileset.png");
-	tileSet2.loadFromFile("Coin.png");
+	tileSet2.loadFromFile("TileSet2.png");
 	PLAYER Bounce(tileSet);
 	ENEMYHorizont  enemy1;
 	ENEMYHorizont enemy2;
 	ENEMYHorizont enemy3;
 	ENEMYVertical venemy;
 	venemy.set(tileSet, 450, 100);
-	
 	enemy3.set(tileSet, 1500, 95);
 	enemy1.set(tileSet, 1700, 95);
 	enemy2.set(tileSet, 700, 208);
 
-
-
 	sf::Sprite tile(tileSet);
 	sf::Sprite tile2(tileSet2);
-
 	sf::SoundBuffer buffer;
 	buffer.loadFromFile("Jump.ogg");
 	sf::Sound sound(buffer);
 
 	sf::Music music;
-	music.openFromFile("Mario_Theme.ogg");
+	music.openFromFile("Game-Mario.ogg");
 	music.play();
+	
 
 	sf::Clock clock;
 
@@ -488,15 +503,17 @@ int main()
 		}
 		if (Bounce.rect.intersects(venemy.rect))
 		{
-			if (Bounce.dy > 0)
-			{
-				venemy.dy = 0;
-				Bounce.dy = -0.3;
-				venemy.life = false;
-			}
-			else
-			{
-				Bounce.sprite.setColor(sf::Color::Red);
+			if (venemy.life) {
+				if (Bounce.dy > 0)
+				{
+					venemy.dy = 0;
+					Bounce.dy = -0.3;
+					venemy.life = false;
+				}
+				else
+				{
+					Bounce.sprite.setColor(sf::Color::Red);
+				}
 			}
 		}
 		if (Bounce.rect.intersects(enemy3.rect))
@@ -519,17 +536,79 @@ int main()
 
 		window.clear(sf::Color::Blue);
 
-		for (int i = 0; i < H; i++) {
+		for (int i = 0; i < H; i++)
+		{
+			for (int j = 0; j < W; j++)
+			{
+				if (TileMap[i][j] == 'Z') {
+					continue;
+				}
+				if (TileMap[i][j] == 'P') {
+					continue;
+				}
+
+				if (TileMap[i][j] == 'k') {
+					continue;
+				}
+
+				if (TileMap[i][j] == 'c') {
+					continue;
+				}
+
+				if (TileMap[i][j] == 't') {
+					continue;
+				}
+
+				if (TileMap[i][j] == 'g') {
+					continue;
+				}
+
+				if (TileMap[i][j] == 'G') {
+					continue;
+				}
+
+				if (TileMap[i][j] == 'd') {
+					continue;
+				}
+
+				if (TileMap[i][j] == 'w') {
+					continue;
+				}
+
+				if (TileMap[i][j] == 'r') {
+					continue;
+				}
+
+				if ((TileMap[i][j] == ' '))
+				{
+					continue;
+				}
+				if ((TileMap[i][j] == '0')) {
+					continue;
+				}
+				if (TileMap[i][j] == 'm') {
+					tile2.setTextureRect(sf::IntRect(84,76,8,8));
+
+				}
+				
+				tile2.setPosition(j * 16 - offsetX, i * 16 - offsetY);
+				window.draw(tile2);
+			}
+		
+		}
+		for (int i = 0; i < H; i++)
+		{
 			for (int j = 0; j < W; j++)
 			{
 				if (TileMap[i][j] == 'm') {
-					tile2.setTextureRect(sf::IntRect(20,580,106,106));
+					continue;
+
 				}
 				if (TileMap[i][j] == 'Z') {
 					tile.setTextureRect(sf::IntRect(95, 8, 109, 107));
 				}
 				if (TileMap[i][j] == 'P') {
-					tile.setTextureRect(sf::IntRect(143 - 16 * 3, 112, 16, 16));
+					tile.setTextureRect(sf::IntRect(95, 112, 16, 16));
 				}
 
 				if (TileMap[i][j] == 'k') {
@@ -537,31 +616,31 @@ int main()
 				}
 
 				if (TileMap[i][j] == 'c') {
-					tile.setTextureRect(sf::IntRect(143 - 16, 112, 16, 16));
+					tile.setTextureRect(sf::IntRect(127, 112, 16, 16));
 				}
 
 				if (TileMap[i][j] == 't') {
-					tile.setTextureRect(sf::IntRect(0, 47, 32, 95 - 47));
+					tile.setTextureRect(sf::IntRect(0, 47, 32, 48));
 				}
 
 				if (TileMap[i][j] == 'g') {
-					tile.setTextureRect(sf::IntRect(0, 16 * 9 - 5, 3 * 16, 16 * 2 + 5));
+					tile.setTextureRect(sf::IntRect(0, 139, 48, 37));
 				}
 
 				if (TileMap[i][j] == 'G') {
-					tile.setTextureRect(sf::IntRect(145, 222, 222 - 145, 255 - 222));
+					tile.setTextureRect(sf::IntRect(145, 222, 77, 33));
 				}
 
 				if (TileMap[i][j] == 'd') {
-					tile.setTextureRect(sf::IntRect(0, 106, 74, 127 - 106));
+					tile.setTextureRect(sf::IntRect(0, 106, 74, 21));
 				}
 
 				if (TileMap[i][j] == 'w') {
-					tile.setTextureRect(sf::IntRect(99, 224, 140 - 99, 255 - 224));
+					tile.setTextureRect(sf::IntRect(99, 224, 41, 255 - 224));
 				}
 
 				if (TileMap[i][j] == 'r') {
-					tile.setTextureRect(sf::IntRect(143 - 32, 112, 16, 16));
+					tile.setTextureRect(sf::IntRect(111, 112, 16, 16));
 				}
 
 				if ((TileMap[i][j] == ' '))
@@ -574,12 +653,12 @@ int main()
 
 				tile.setPosition(j * 16 - offsetX, i * 16 - offsetY);
 				window.draw(tile);
+				
 			}
 
 		}
-
-		window.draw(Bounce.sprite);
 		
+		window.draw(Bounce.sprite);
 		window.draw(enemy1.sprite); 
 		
 		if (venemy.life) {
@@ -589,6 +668,11 @@ int main()
 		if (enemy3.life) {
 			window.draw(enemy3.sprite);
 		}
+		std::ostringstream ScoreString;
+		ScoreString << Bounce.Score;
+		text.setString("Всего очков:" + ScoreString.str());
+		text.setPosition(10, 10);
+		window.draw(text);
 		
 		window.display();
 	}
