@@ -401,6 +401,12 @@ int main()
 	sf::Text text("", font, 20);
 	text.setFillColor(sf::Color::White);
 	text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+
+	sf::Font fontGameOver;
+	fontGameOver.loadFromFile("CyrilicOld.ttf");
+	sf::Text textGameOver("", font, 100);
+	textGameOver.setFillColor(sf::Color::White);
+	textGameOver.setStyle(sf::Text::Bold);
 	/*Создание окна игры*/
 	sf::RenderWindow window(sf::VideoMode(950, 272), "Bounce!");
 
@@ -489,15 +495,17 @@ int main()
 		{
 			if (enemy1.life) {
 				if (Bounce.dy > 0) {
+					Bounce.Score++;
 					enemy1.dx = 0;
 					Bounce.dy = -0.3;
 					enemy1.life = false;
-					if (Bounce.life<3) 
+					if (Bounce.health<=3) 
 					{
 						Bounce.health += 1;
 					}
 				}
 				else {
+					Bounce.Score--;
 					Bounce.health -= 1;
 					if (enemy1.dx > 0)
 					{
@@ -514,16 +522,18 @@ int main()
 		if (Bounce.rect.intersects(enemy2.rect))
 		{
 			if (enemy2.life) {
+				Bounce.Score++;
 				if (Bounce.dy > 0) {
 					enemy2.dx = 0;
 					Bounce.dy = -0.3;
 					enemy2.life = false;
-					if (Bounce.life < 3)
+					if (Bounce.health <= 3)
 					{
 						Bounce.health += 1;
 					}
 				}
 				else {
+					Bounce.Score--;
 					Bounce.health -= 1;
 					if (enemy2.dx > 0)
 					{
@@ -541,17 +551,18 @@ int main()
 			if (venemy.life) {
 				if (Bounce.dy > 0)
 				{
-					if (Bounce.life < 3)
+					if (Bounce.health <= 3)
 					{
 						Bounce.health += 1;
 					}
+					Bounce.Score++;
 					venemy.dy = 0;
 					Bounce.dy = -0.3;
 					venemy.life = false;
 				}
 				else
 				{
-
+					Bounce.Score--;
 					Bounce.health -= 1;
 					if (enemy3.dx > 0)
 					{
@@ -569,16 +580,18 @@ int main()
 			if (enemy3.life) {
 				if (Bounce.dy > 0)
 				{
-					if (Bounce.life < 3)
+					if (Bounce.health <= 3)
 					{
 						Bounce.health += 1;
 					}
+					Bounce.Score++;
 					enemy3.dx = 0;
 					Bounce.dy = -0.3;
 					enemy3.life = false;
 				}
 				else {
 					Bounce.health -= 1;
+					Bounce.Score--;
 					if (enemy3.dx > 0)
 					{
 						Bounce.rect.left -= 35;
@@ -730,11 +743,24 @@ int main()
 		if (enemy3.life) {
 			window.draw(enemy3.sprite);
 		}
+		/*Вывод надписи о сборе очков*/
 		std::ostringstream ScoreString;
 		ScoreString << Bounce.Score;
 		text.setString("Всего очков:" + ScoreString.str());
 		text.setPosition(10, 10);
 		window.draw(text);
+		/*Вывод кол\ва жизней*/
+		std::ostringstream StringHealth;
+		StringHealth << Bounce.health;
+		text.setString("Здоровье:" + StringHealth.str());
+		text.setPosition(10, 35);
+		window.draw(text);
+		if (!Bounce.life) {
+			textGameOver.setString("Игра Окончена");
+			textGameOver.setPosition(150, 50);
+			window.draw(textGameOver);
+			
+		}
 		
 		window.display();
 	}
