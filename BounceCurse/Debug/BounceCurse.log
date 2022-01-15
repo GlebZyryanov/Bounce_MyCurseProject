@@ -1,0 +1,132 @@
+﻿  Main.cpp
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(53,1): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(69,12): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(76,1): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(115,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(116,15): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(131,25): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(140,26): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(156,25): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(165,26): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(177,25): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(186,26): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(198,25): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(207,26): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(219,25): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(228,26): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(241,25): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(252,26): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(271,27): warning C4244: аргумент: преобразование "unsigned long" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(271,24): warning C4244: аргумент: преобразование "unsigned long" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(273,1): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(280,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(281,15): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(311,1): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(340,27): warning C4244: аргумент: преобразование "unsigned long" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(340,24): warning C4244: аргумент: преобразование "unsigned long" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(342,1): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(353,1): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(373,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(374,15): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(384,26): warning C4244: =: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(445,14): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(466,22): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(471,21): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(480,23): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(503,22): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(531,22): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(563,22): warning C4305: =: усечение из "double" в "float"
+C:\Users\zyrya\source\repos\BounceCurse\Main.cpp(592,22): warning C4305: =: усечение из "double" в "float"
+  BounceCurse.vcxproj -> C:\Users\zyrya\source\repos\BounceCurse\Debug\BounceCurse.exe
