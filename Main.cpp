@@ -1,35 +1,33 @@
-#include <SFML/Graphics.hpp>
+п»ї#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
 
-
-
-float offsetX = 0, offsetY = 0;
+float offsetX = 0;
+float offsetY = 0;
 
 
 const int H = 17;
-const int W = 150;
+const int W = 151;
 
 sf::String TileMap[H] = {
 "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-"0                                                                                                                                                    0",
-"0                                                                                    w                                                               0",
-"0                   w                                  w                   w                                                                         0",
-"0                                      w                                       kk                                                                    0",
-"0                                                                             k  k    k    k                                                         0",
-"0                      c                                                      k      kkk  kkk  w                                                     0",
-"0                                                                       r     k       k    k                                                         0",
-"0                                                                      rr     k  k                                                                   0",
-"0                                                                     rrr      kk                                                                    0",
-"0               c    kckck                                           rrrr                                                                            0",
-"0                                      t0                           rrrrr                                                                            0",
-"0G                                     00              t0          rrrrrr            G                                                               0",
-"0           d    g       d             00              00         rrrrrrr                                                                            0",
-"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
-"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
-"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+"0                                w                                                               w                        Z                          0",
+"0                                                                               w                                                                    0",
+"0                    w                          w                                                                                                    0",
+"0                                                                                                    t0                                              0",
+"0                                                                                   t0               00                          t0          G       0",
+"0                                                                                   00               00                          00                  0",
+"0                    m                                                  rPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0                                                                      rrPPPPPPPPccccccPcccccPcPPPcPccPPPPcPcccccPcccccPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0                                                                     rrrPPPPPPPPccPPPcPcPPPcPcPPPcPcPcPPPcPcPPPPPcPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0                   kckck                                            rrrrPPPPPPPPccccccPcPPPcPcPPPcPcPPcPPcPcPPPPPcccccPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0                                      t0                           rrrrrPPPPPPPPccPPPcPcPPPcPcPPPcPcPPPcPcPcPPPPPcPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0G                                     00              t0          rrrrrrPPPPPPPPccccccPcccccPcccccPcPPPPccPcccccPcccccPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"0           d    g       d             00              00         rrrrrrrPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
+"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP0",
 };
-
 
 
 
@@ -37,19 +35,19 @@ class PLAYER {
 
 public:
 
-	float dx, dy;
+	float dx;
+	float dy;
 	sf::FloatRect rect;
 	bool onGround;
 	sf::Sprite sprite;
 	float currentFrame;
-	
 
 	PLAYER(sf::Texture& image)
 	{
 		sprite.setTexture(image);
 		rect = sf::FloatRect(100, 180, 16, 16);
-		
-		dx=dy = 0.1;
+
+		dx = dy = 0.1;
 		currentFrame = 0;
 	}
 
@@ -66,7 +64,7 @@ public:
 		}
 		rect.top += dy * time;
 		onGround = false;
-	  Collision(1);
+		Collision(1);
 
 
 		currentFrame += time * 0.005;
@@ -74,12 +72,24 @@ public:
 			currentFrame -= 3;
 		}
 
-
+		//РїСЂРѕРёРіСЂС‹РІР°РЅРёРµ Р°РЅРёРјР°С†РёР№
+		if (dx == 0) {
+			sprite.setTextureRect(sf::IntRect(112, 144, 16, 16));
+		}
 		if (dx > 0) {
 			sprite.setTextureRect(sf::IntRect(112 + 31 * int(currentFrame), 144, 16, 16));
 		}
 		if (dx < 0) {
 			sprite.setTextureRect(sf::IntRect(112 + 31 * int(currentFrame) + 16, 144, -16, 16));
+		}
+		if (dy > 0) {
+			sprite.setTextureRect(sf::IntRect(230, 144, 16, 16));
+		}
+		if (dy > 0 && dx > 0) {
+			sprite.setTextureRect(sf::IntRect(170 + 31 * int(currentFrame), 144, 16, 16));
+		}
+		if (dy > 0 && dx < 0) {
+			sprite.setTextureRect(sf::IntRect(170 + 31 * int(currentFrame) + 16, 144, -16, 16));
 		}
 
 		sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
@@ -90,18 +100,22 @@ public:
 
 	void Collision(int num)
 	{
-		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++)
+
+		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++) {
 			for (int j = rect.left / 16; j < (rect.left + rect.width) / 16; j++)
 			{
-				if ((TileMap[i][j] == 'P') || (TileMap[i][j] == 'k') || (TileMap[i][j] == '0') || (TileMap[i][j] == 'r') || (TileMap[i][j] == 't'))
+				if ((TileMap[i][j] == 'P'))
 				{
 					if (dy > 0 && num == 1)
 					{
-						rect.top = i * 16 - rect.height;  dy = 0;   onGround = true;
+						rect.top = i * 16 - rect.height;
+						dy = 0;
+						onGround = true;
 					}
 					if (dy < 0 && num == 1)
 					{
-						rect.top = i * 16 + 16;   dy = 0;
+						rect.top = i * 16 + 16;
+						dy = 0;
 					}
 					if (dx > 0 && num == 0)
 					{
@@ -112,36 +126,203 @@ public:
 						rect.left = j * 16 + 16;
 					}
 				}
-
+				if ((TileMap[i][j] == 'k')) {
+					if (dy > 0 && num == 1)
+					{
+						rect.top = i * 16 - rect.height;
+						dy = 0;
+						onGround = true;
+					}
+					if (dy < 0 && num == 1)
+					{
+						rect.top = i * 16 + 16;
+						dy = 0;
+					}
+					if (dx > 0 && num == 0)
+					{
+						rect.left = j * 16 - rect.width;
+					}
+					if (dx < 0 && num == 0)
+					{
+						rect.left = j * 16 + 16;
+					}
+				}
+				if ((TileMap[i][j] == '0')) {
+					if (dy > 0 && num == 1)
+					{
+						rect.top = i * 16 - rect.height;
+						dy = 0;
+						onGround = true;
+					}
+					if (dy < 0 && num == 1)
+					{
+						rect.top = i * 16 + 16;
+						dy = 0;
+					}
+					if (dx > 0 && num == 0)
+					{
+						rect.left = j * 16 - rect.width;
+					}
+					if (dx < 0 && num == 0)
+					{
+						rect.left = j * 16 + 16;
+					}
+				}
+				if ((TileMap[i][j] == 'r')) {
+					if (dy > 0 && num == 1)
+					{
+						rect.top = i * 16 - rect.height;
+						dy = 0;
+						onGround = true;
+					}
+					if (dy < 0 && num == 1)
+					{
+						rect.top = i * 16 + 16;
+						dy = 0;
+					}
+					if (dx > 0 && num == 0)
+					{
+						rect.left = j * 16 - rect.width;
+					}
+					if (dx < 0 && num == 0)
+					{
+						rect.left = j * 16 + 16;
+					}
+				}
+				if ((TileMap[i][j] == 't')) {
+					if (dy > 0 && num == 1)
+					{
+						rect.top = i * 16 - rect.height;
+						dy = 0;
+						onGround = true;
+					}
+					if (dy < 0 && num == 1)
+					{
+						rect.top = i * 16 + 16;
+						dy = 0;
+					}
+					if (dx > 0 && num == 0)
+					{
+						rect.left = j * 16 - rect.width;
+					}
+					if (dx < 0 && num == 0)
+					{
+						rect.left = j * 16 + 16;
+					}
+				}
 				if (TileMap[i][j] == 'c') {
-					// TileMap[i][j]=' '; 
+					if (dy > 0 && num == 1)
+					{
+
+						rect.top = i * 16 - rect.height;
+						dy = 0;
+						onGround = true;
+					}
+					if (dy < 0 && num == 1)
+					{
+						rect.top = i * 16 + 16;
+						dy = 0;
+					}
+					if (dx > 0 && num == 0)
+					{
+
+						rect.left = j * 16 - rect.width;
+					}
+					if (dx < 0 && num == 0)
+					{
+
+						rect.left = j * 16 + 16;
+					}
 				}
 			}
-		
-
+		}
 	}
-
 };
 
 
+class ENEMYVertical
+{
+public:
+	float  dy;
+	sf::FloatRect rect;
+	sf::Sprite sprite;
+	float currentFrame;
+	bool life;
+	void set(sf::Texture& image, unsigned long int x, unsigned long int y)
+	{
+		sprite.setTexture(image);
+		rect = sf::FloatRect(x, y, 16, 16);
+		
+		dy = -0.1;
+		currentFrame = 0;
+		life = true;
+	}
+	void Collision()
+	{
 
-class ENEMY
+		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++) {
+			for (int j = rect.left / 16; j < (rect.left + rect.width) / 16; j++) {
+				if ((TileMap[i][j] == '0'))
+				{
+					if (dy < 0)
+					{
+						
+						rect.top = i*16+rect.height;
+						dy *= -1;
+					}
+				
+				}
+				if ((TileMap[i][j] == 'P'))
+				{
+					if (dy > 0)
+					{
+						
+						rect.top = i * 16 - rect.height;
+						dy *= -1;
+					}
+
+				}
+			}
+		}
+	}
+	void update(float time)
+	{
+		
+		rect.top += dy * time;
+		Collision();
+
+		currentFrame += time * 0.001;
+		if (currentFrame > 2) {
+			currentFrame -= 2;
+		}
+
+		sprite.setTextureRect(sf::IntRect(36 * int(currentFrame), 0, 16, 16));
+		if (!life) {
+			sprite.setTextureRect(sf::IntRect(58, 0, 16, 16));
+
+		}
+
+		sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
+
+	}
+};
+class ENEMYHorizont
 {
 
 public:
-	float dx, dy;
+	float dx;
 	sf::FloatRect rect;
 	sf::Sprite sprite;
 	float currentFrame;
 	bool life;
 
 
-	void set(sf::Texture& image, int x, int y)
+	void set(sf::Texture& image, unsigned long int x, unsigned long int y)
 	{
 		sprite.setTexture(image);
 		rect = sf::FloatRect(x, y, 16, 16);
 
-		dx = 0.05;
+		dx = 0.1;
 		currentFrame = 0;
 		life = true;
 	}
@@ -152,12 +333,16 @@ public:
 
 		Collision();
 
-
 		currentFrame += time * 0.005;
-		if (currentFrame > 2) currentFrame -= 2;
+		if (currentFrame > 2) {
+			currentFrame -= 2;
+		}
 
 		sprite.setTextureRect(sf::IntRect(18 * int(currentFrame), 0, 16, 16));
-		if (!life) sprite.setTextureRect(sf::IntRect(58, 0, 16, 16));
+		if (!life) {
+			sprite.setTextureRect(sf::IntRect(58, 0, 16, 16));
+			
+		}
 
 
 		sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
@@ -168,20 +353,23 @@ public:
 	void Collision()
 	{
 
-		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++)
+		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++) {
 			for (int j = rect.left / 16; j < (rect.left + rect.width) / 16; j++)
-				if ((TileMap[i][j] == 'P') || (TileMap[i][j] == '0'))
+				if ( (TileMap[i][j] == '0'))
 				{
 					if (dx > 0)
 					{
-						rect.left = j * 16 - rect.width; dx *= -1;
+						rect.left = j * 16 - rect.width; 
+						dx *= -1;
 					}
 					else if (dx < 0)
 					{
-						rect.left = j * 16 + 16;  dx *= -1;
+						rect.left = j * 16 + 16;  
+						dx *= -1;
 					}
 
 				}
+		}
 	}
 
 };
@@ -191,28 +379,33 @@ public:
 int main()
 {
 
-	sf::RenderWindow window(sf::VideoMode(950, 450), "SFML works!");
-
+	sf::RenderWindow window(sf::VideoMode(950, 272), "Bounce!");
 	sf::Texture tileSet;
+	sf::Texture tileSet2;
 	tileSet.loadFromFile("Mario_Tileset.png");
-
-
-	PLAYER Mario(tileSet);
-	ENEMY  enemy;
+	tileSet2.loadFromFile("Coin.png");
+	PLAYER Bounce(tileSet);
+	ENEMYHorizont  enemy1;
+	ENEMYHorizont enemy2;
+	ENEMYHorizont enemy3;
+	ENEMYVertical venemy;
+	venemy.set(tileSet, 450, 100);
 	
-	enemy.set(tileSet, 48 * 16, 13 * 16);
-	ENEMY En;
-	En.set(tileSet ,19 * 16, 13 * 16);
+	enemy3.set(tileSet, 1500, 95);
+	enemy1.set(tileSet, 1700, 95);
+	enemy2.set(tileSet, 700, 208);
+
 
 
 	sf::Sprite tile(tileSet);
+	sf::Sprite tile2(tileSet2);
 
 	sf::SoundBuffer buffer;
 	buffer.loadFromFile("Jump.ogg");
 	sf::Sound sound(buffer);
 
 	sf::Music music;
-	music.openFromFile("Horror-Music-Orchestra-Dark-Ambient-_www.hotplayer.ru_.ogg");
+	music.openFromFile("Mario_Theme.ogg");
 	music.play();
 
 	sf::Clock clock;
@@ -223,7 +416,7 @@ int main()
 		float time = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
 
-		time = time / 500;  // здесь регулируем скорость игры
+		time = time / 700;  
 
 		if (time > 20) {
 			time = 20;
@@ -239,68 +432,102 @@ int main()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			Mario.dx = -0.1;
+			Bounce.dx = -0.08;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			Mario.dx = 0.1;
+			Bounce.dx = 0.08;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			if (Mario.onGround)
+			if (Bounce.onGround)
 			{
-				Mario.dy = -0.27;
-				Mario.onGround = false;
+				Bounce.dy = -0.27;
+				Bounce.onGround = false;
 				sound.play();
 			}
 
 		}
 
 
-		Mario.update(time);
-		enemy.update(time);
-		En.update(time);
+		Bounce.update(time);
+		enemy1.update(time);
+		enemy2.update(time);
+		enemy3.update(time);
+		venemy.update(time);
 
-
-		if (Mario.rect.intersects(enemy.rect))
+		if (Bounce.rect.intersects(enemy1.rect))
 		{
-			if (enemy.life) {
-				if (Mario.dy > 0) {
-					enemy.dx = 0; Mario.dy = -0.2; enemy.life = false;
+			if (enemy1.life) {
+				if (Bounce.dy > 0) {
+					enemy1.dx = 0;
+					Bounce.dy = -0.3; 
+					enemy1.life = false;
+					
 				}
 				else {
-					Mario.sprite.setColor(sf::Color::Red);//добавить функцию гемовер?
+					Bounce.sprite.setColor(sf::Color::Red);
 
 				}
 			}
 		}
-		if (Mario.rect.intersects(En.rect))
+		if (Bounce.rect.intersects(enemy2.rect))
 		{
-			if (En.life) {
-				if (Mario.dy > 0) {
-					En.dx = 0; Mario.dy = -0.2; En.life = false;
+			if (enemy2.life) {
+				if (Bounce.dy > 0) {
+					enemy2.dx = 0;
+					Bounce.dy = -0.3; 
+					enemy2.life = false;
 				}
 				else {
-					Mario.sprite.setColor(sf::Color::Red);
+					Bounce.sprite.setColor(sf::Color::Red);
+				}
+			}
+		}
+		if (Bounce.rect.intersects(venemy.rect))
+		{
+			if (Bounce.dy > 0)
+			{
+				venemy.dy = 0;
+				Bounce.dy = -0.3;
+				venemy.life = false;
+			}
+			else
+			{
+				Bounce.sprite.setColor(sf::Color::Red);
+			}
+		}
+		if (Bounce.rect.intersects(enemy3.rect))
+		{
+			if (enemy3.life) {
+				if (Bounce.dy > 0) {
+					enemy3.dx = 0; 
+					Bounce.dy = -0.3;
+					enemy3.life = false;
+				}
+				else {
+					Bounce.sprite.setColor(sf::Color::Red);
 				}
 			}
 		}
 
-
-		if (Mario.rect.left > 200) {
-			offsetX = Mario.rect.left - 200;
-		}//смещение
-
-
-
+		if (Bounce.rect.left > 200 && Bounce.rect.left<1600) {
+			offsetX = Bounce.rect.left - 200;
+		}
 
 		window.clear(sf::Color::Blue);
 
-		for (int i = 0; i < H; i++)
+		for (int i = 0; i < H; i++) {
 			for (int j = 0; j < W; j++)
 			{
+				if (TileMap[i][j] == 'm') {
+					tile2.setTextureRect(sf::IntRect(20,580,106,106));
+				}
+				if (TileMap[i][j] == 'Z') {
+					tile.setTextureRect(sf::IntRect(95, 8, 109, 107));
+				}
 				if (TileMap[i][j] == 'P') {
 					tile.setTextureRect(sf::IntRect(143 - 16 * 3, 112, 16, 16));
 				}
@@ -349,17 +576,26 @@ int main()
 				window.draw(tile);
 			}
 
+		}
 
-
-		window.draw(Mario.sprite);
-		window.draw(enemy.sprite);
-		window.draw(En.sprite);
-
+		window.draw(Bounce.sprite);
+		
+		window.draw(enemy1.sprite); 
+		
+		if (venemy.life) {
+			window.draw(venemy.sprite);
+		}
+		window.draw(enemy2.sprite);
+		if (enemy3.life) {
+			window.draw(enemy3.sprite);
+		}
+		
 		window.display();
 	}
 
 	return 0;
 }
+
 
 
 
