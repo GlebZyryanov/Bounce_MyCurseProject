@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include"SFML/Graphics.hpp"
 using namespace sf;
 void menu(RenderWindow& window) {
@@ -6,12 +6,12 @@ void menu(RenderWindow& window) {
 	Texture menuAboutProgram;
 	Texture menuExit;
 	Texture aboutWindowAboutProgram;
-	menuNewGame.loadFromFile("NewGame.png");
-	menuAboutProgram.loadFromFile("AboutProgram.png");
-	menuExit.loadFromFile("Exit.png");
-	aboutWindowAboutProgram.loadFromFile("WindowAboutProgram.png");
-	
-	Sprite  menu1(menuNewGame);
+	menuNewGame.loadFromFile("C:/My_files/CloneBounceCurse/NewGame.png");
+	menuAboutProgram.loadFromFile("C:/My_files/CloneBounceCurse/AboutProgram.png");
+	menuExit.loadFromFile("C:/My_files/CloneBounceCurse/Exit.png");
+	aboutWindowAboutProgram.loadFromFile("C:/My_files/CloneBounceCurse/WindowAboutProgram.png");
+
+	Sprite menu1(menuNewGame);
 	Sprite menu2(menuAboutProgram);
 	Sprite menu3(menuExit);
 	Sprite about(aboutWindowAboutProgram);
@@ -20,7 +20,7 @@ void menu(RenderWindow& window) {
 	menu1.setPosition(50, 30);
 	menu2.setPosition(50, 90);
 	menu3.setPosition(50, 150);
-	
+
 	while (isMenu)
 	{
 		menu1.setColor(Color::White);
@@ -29,35 +29,35 @@ void menu(RenderWindow& window) {
 		menuNum = 0;
 		window.clear(Color(129, 181, 221));
 
-		if (IntRect(100, 30, 300, 50).contains(Mouse::getPosition(window))) 
-		{ 
+		if (IntRect(100, 30, 300, 50).contains(Mouse::getPosition(window)))
+		{
 			menu1.setColor(Color::Blue);
-			menuNum = 1; 
+			menuNum = 1;
 		}
 		if (IntRect(100, 90, 300, 50).contains(Mouse::getPosition(window)))
-		{ 
-			menu2.setColor(Color::Blue); 
+		{
+			menu2.setColor(Color::Blue);
 			menuNum = 2;
 		}
-		if (IntRect(100, 150, 300, 50).contains(Mouse::getPosition(window))) 
+		if (IntRect(100, 150, 300, 50).contains(Mouse::getPosition(window)))
 		{
 			menu3.setColor(Color::Blue);
-			menuNum = 3; 
+			menuNum = 3;
 		}
 
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
 			if (menuNum == 1) {
 				isMenu = false;
-			}//если нажали первую кнопку, то выходим из меню 
-			if (menuNum == 2) { 
+			}//ГҐГ±Г«ГЁ Г­Г Г¦Г Г«ГЁ ГЇГҐГ°ГўГіГѕ ГЄГ­Г®ГЇГЄГі, ГІГ® ГўГ»ГµГ®Г¤ГЁГ¬ ГЁГ§ Г¬ГҐГ­Гѕ 
+			if (menuNum == 2) {
 				window.draw(about);
 				window.display();
-				while (!Keyboard::isKeyPressed(Keyboard::Escape)); 
+				while (!Keyboard::isKeyPressed(Keyboard::Escape));
 			}
-			if (menuNum == 3) { 
-				window.close(); 
-				isMenu = false; 
+			if (menuNum == 3) {
+				window.close();
+				isMenu = false;
 			}
 
 		}
@@ -67,5 +67,5 @@ void menu(RenderWindow& window) {
 		window.draw(menu3);
 		window.display();
 	}
-	
+
 }
