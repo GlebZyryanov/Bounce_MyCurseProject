@@ -23,8 +23,10 @@ public:
 	void Collision()
 	{
 
-		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++) {
-			for (int j = rect.left / 16; j < (rect.left + rect.width) / 16; j++) {
+		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++)
+		{
+			for (int j = rect.left / 16; j < (rect.left + rect.width) / 16; j++)
+			{
 				if ((TileMap[i][j] == '0'))
 				{
 					if (dy < 0)
@@ -54,11 +56,13 @@ public:
 		Collision();
 
 		currentFrame += time * 0.001;
-		if (currentFrame > 2) {
+		if (currentFrame > 2)
+		{
 			currentFrame -= 2;
 		}
 		sprite.setTextureRect(sf::IntRect(36 * int(currentFrame), 0, 16, 16));
-		if (!life) {
+		if (!life)
+		{
 			sprite.setTextureRect(sf::IntRect(58, 0, 16, 16));
 
 		}

@@ -3,6 +3,7 @@
 #include"Offset.h"
 #include"Map.h"
 class PLAYER {
+	
 
 public:
 	/*Изменение скорости по x,y*/
@@ -42,7 +43,8 @@ public:
 
 		Collision(0);
 
-		if (!onGround) {
+		if (!onGround) 
+		{
 			dy = dy + 0.0005 * time;
 		}
 		/*смещение по y*/
@@ -52,27 +54,34 @@ public:
 
 		/*Смена текущего кадра анимации*/
 		currentFrame += time * 0.005;
-		if (currentFrame > 3) {
+		if (currentFrame > 3)
+		{
 			currentFrame -= 3;
 		}
 
 		//проигрывание анимаций
-		if (dx == 0) {
+		if (dx == 0) 
+		{
 			sprite.setTextureRect(sf::IntRect(112, 144, 16, 16));
 		}
-		if (dx > 0) {
+		if (dx > 0)
+		{
 			sprite.setTextureRect(sf::IntRect(112 + 31 * int(currentFrame), 144, 16, 16));
 		}
-		if (dx < 0) {
+		if (dx < 0)
+		{
 			sprite.setTextureRect(sf::IntRect(112 + 31 * int(currentFrame) + 16, 144, -16, 16));
 		}
-		if (dy > 0) {
+		if (dy > 0) 
+		{
 			sprite.setTextureRect(sf::IntRect(230, 144, 16, 16));
 		}
-		if (dy > 0 && dx > 0) {
+		if (dy > 0 && dx > 0) 
+		{
 			sprite.setTextureRect(sf::IntRect(170 + 31 * int(currentFrame), 144, 16, 16));
 		}
-		if (dy > 0 && dx < 0) {
+		if (dy > 0 && dx < 0)
+		{
 			sprite.setTextureRect(sf::IntRect(170 + 31 * int(currentFrame) + 16, 144, -16, 16));
 		}
 		/*Установка позиции персонажа*/
@@ -80,7 +89,8 @@ public:
 		/*Занулить скорость по x*/
 		dx = 0;
 		/*Смерть персонажа*/
-		if (health < 0) {
+		if (health < 0) 
+		{
 			life = false;
 			dx = 0;
 			dy = 0;
@@ -90,10 +100,11 @@ public:
 	/*Обработка столкновений*/
 	void Collision(int num)
 	{
-
+	
 
 		/*проход по карте*/
-		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++) {
+		for (int i = rect.top / 16; i < (rect.top + rect.height) / 16; i++) 
+		{
 			for (int j = rect.left / 16; j < (rect.left + rect.width) / 16; j++)
 			{
 				/*Если персонаж столкнулся, с препятствием*/
@@ -111,6 +122,7 @@ public:
 					{
 						rect.top = i * 16 + 16;
 						dy = 0;
+
 					}
 					if (dx > 0 && num == 0)
 					{
@@ -121,12 +133,14 @@ public:
 						rect.left = j * 16 + 16;
 					}
 				}
-		
-				if (TileMap[i][j] == 'm') {
+				
+				if (TileMap[i][j] == 'm')
+				{
 					TileMap[i][j] = ' ';
 					Score++;
 				}
-				if ((TileMap[i][j] == 'k')) {
+				if ((TileMap[i][j] == 'k')) 
+				{
 					if (dy > 0 && num == 1)
 					{
 						rect.top = i * 16 - rect.height;
@@ -147,7 +161,8 @@ public:
 						rect.left = j * 16 + 16;
 					}
 				}
-				if ((TileMap[i][j] == '0')) {
+				if ((TileMap[i][j] == '0')) 
+				{
 					if (dy > 0 && num == 1)
 					{
 						rect.top = i * 16 - rect.height;
@@ -168,7 +183,8 @@ public:
 						rect.left = j * 16 + 16;
 					}
 				}
-				if ((TileMap[i][j] == 'r')) {
+				if ((TileMap[i][j] == 'r'))
+				{
 					if (dy > 0 && num == 1)
 					{
 						rect.top = i * 16 - rect.height;
@@ -189,7 +205,8 @@ public:
 						rect.left = j * 16 + 16;
 					}
 				}
-				if ((TileMap[i][j] == 't')) {
+				if ((TileMap[i][j] == 't'))
+				{
 					if (dy > 0 && num == 1)
 					{
 						rect.top = i * 16 - rect.height;
@@ -210,7 +227,8 @@ public:
 						rect.left = j * 16 + 16;
 					}
 				}
-				if (TileMap[i][j] == 'c') {
+				if (TileMap[i][j] == 'c')
+				{
 					if (dy > 0 && num == 1)
 					{
 
